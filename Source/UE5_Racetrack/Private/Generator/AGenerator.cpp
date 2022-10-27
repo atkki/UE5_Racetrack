@@ -83,7 +83,6 @@ void AGenerator::Generate()
 UStaticMeshComponent* AGenerator::NewMesh(UStaticMesh* Mesh, const FTransform& MeshTransform)
 {
 	UStaticMeshComponent* Obj = NewObject<UStaticMeshComponent>(this);
-	Obj->SetCastShadow(false);
 	Obj->RegisterComponent();
 	Obj->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	Obj->SetStaticMesh(Mesh);
