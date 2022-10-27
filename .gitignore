@@ -1,0 +1,9 @@
+# Ignore everything besides source code
+.vs/*
+Binaries/*
+Config/*
+Content/*
+DerivedDataCache/*
+Intermediate/*
+Saved/*
+Script/*
