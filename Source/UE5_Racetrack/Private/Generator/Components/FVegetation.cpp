@@ -33,7 +33,7 @@ void FVegetation::Generate()
 			{
 				UStaticMeshComponent* RoadMesh = static_cast<FTerrain*>(TerrainComponent)->GetNearestMeshRoad(TerrainMesh);
 				if (RoadMesh != nullptr 
-					&& FVector::Dist(RoadMesh->GetComponentLocation(), TerrainMesh->GetComponentLocation()) > TerrainMeshSize.X * 5
+					&& FVector::Dist(RoadMesh->GetComponentLocation(), TerrainMesh->GetComponentLocation()) > TerrainMeshSize.X * 6
 					&& GetGenerator()->VegetationDensity + FMath::RandRange(0, 100) > 100)
 				{
 					UStaticMesh* Mesh;
