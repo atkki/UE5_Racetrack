@@ -66,8 +66,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
 	class USceneComponent* SceneRoot;
 
-	UStaticMeshComponent* NewMesh(class UStaticMesh* Mesh, const FTransform& MeshTransform);
-	UInstancedStaticMeshComponent* NewMeshInstance(class UStaticMesh* Mesh, const FTransform& MeshTransform);
+	class UStaticMeshComponent* NewMesh(class UStaticMesh* Mesh, const FTransform& MeshTransform);
+	class UInstancedStaticMeshComponent* NewMeshInstance(class UStaticMesh* Mesh, const FTransform& MeshTransform);
 
 protected:
 	virtual void BeginPlay() override;

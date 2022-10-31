@@ -16,18 +16,19 @@ void FRaceTracks::Generate()
 	const FVector ForwardMeshSize = FUtils::GetStaticMeshSize(GetGenerator()->ForwardTrackMesh);
 	const FVector CornerMeshSize = FUtils::GetStaticMeshSize(GetGenerator()->LeftCornerTrackMesh);
 	const FVector JumpMeshSize = FUtils::GetStaticMeshSize(GetGenerator()->JumpTrackMesh);
+	const FVector TerrainMeshSize = FUtils::GetStaticMeshSize(GetGenerator()->TerrainMesh);
 
 	FRotator Rotation{0, 0, 0};
 	FTransform MeshTransform {
 		Rotation,
-		FVector{0, ForwardMeshSize.Y, 0},
+		FVector{0, (TerrainMeshSize.Y + ForwardMeshSize.Y) / 2, 0},
 		FVector{1, 1, 1}
 	};
 
 	this->AddMesh(GetGenerator()->ForwardTrackMesh, MeshTransform); // add first track
 
 	uint8 WaitForCorner = FMath::RandRange(1, GetGenerator()->TurnSpace);
-	for (int k = 0; k < GetGenerator()->TrackLength; ++k)
+	for (int Index = 0; Index < GetGenerator()->TrackLength; ++Index)
 	{
 		if (WaitForCorner > 0)
 			--WaitForCorner;
@@ -53,18 +54,18 @@ void FRaceTracks::Generate()
 				}
 
 				MeshTransform = {
-					Rotation, // Rotation
-					FUtils::GetOffsetLocation(GetLastMesh(), Offset), // Position
-					FVector{1.0, 1.0, 1.0} // Scale
+					Rotation,
+					FUtils::GetOffsetLocation(GetLastMesh(), Offset),
+					FVector{1.0, 1.0, 1.0}
 				};
 			}
 			else // straight track
 			{
 				Rotation = GetLastMesh()->GetRelativeRotation();
 				MeshTransform = {
-					Rotation, // Rotation
-					FUtils::GetOffsetLocation(GetLastMesh(), FVector{ ForwardMeshSize.X, 0, 0 }), // Position
-					FVector{1.0, 1.0, 1.0} // Scale
+					Rotation,
+					FUtils::GetOffsetLocation(GetLastMesh(), FVector{ ForwardMeshSize.X, 0, 0 }),
+					FVector{1.0, 1.0, 1.0}
 				};
 			}
 

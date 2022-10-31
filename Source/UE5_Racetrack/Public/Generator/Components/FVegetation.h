@@ -6,7 +6,7 @@ class FVegetation : public FGeneratorComponent
 {
 public:
 	FVegetation(FGeneratorComponent* Terrain);
-	virtual ~FVegetation();
+	virtual ~FVegetation() = default;
 
 protected:
 	void Generate() override;

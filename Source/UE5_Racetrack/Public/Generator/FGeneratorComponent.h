@@ -14,7 +14,7 @@ protected:
 	~FGeneratorComponent();
 
 	virtual void Generate() = 0;
-	virtual UStaticMeshComponent* AddMesh(class UStaticMesh* Mesh, FTransform& Transform);
+	virtual class UStaticMeshComponent* AddMesh(class UStaticMesh* Mesh, FTransform& Transform);
 
 private: 
 	class AGenerator* Generator;

@@ -9,11 +9,6 @@ FDecorations::FDecorations(FGeneratorComponent* Tracks)
 	this->Generate();
 }
 
-FDecorations::~FDecorations()
-{
-
-}
-
 void FDecorations::Generate()
 {
 	if (GetGenerator()->BleachersMesh == nullptr) return;

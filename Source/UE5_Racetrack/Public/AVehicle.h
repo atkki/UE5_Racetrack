@@ -22,10 +22,10 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	void Handbrake();
-	void Throttle(float Value);
-	void Brake(float Value);
-	void Steering(float Value);
+	void InputHandbrake();
+	void InputThrottle(float Value);
+	void InputBrake(float Value);
+	void InputSteering(float Value);
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = Camera)

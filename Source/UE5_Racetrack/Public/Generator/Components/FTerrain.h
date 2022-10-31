@@ -8,15 +8,15 @@
 class FTerrain : public FGeneratorComponent
 {
 public:
-	using MapType = TMap<int32, TMap<int32, UStaticMeshComponent*>>;
+	using MapType = TMap<int32, TMap<int32, class UStaticMeshComponent*>>;
 
 	FTerrain(FGeneratorComponent* RaceTracks);
 	virtual ~FTerrain();
 
-	MapType GetMap();
-	FORCEINLINE int32 GetMaxRange() { return TerrainMaxRange;  };
+	MapType GetMap() const;
+	FORCEINLINE int32 GetMaxRange() const { return TerrainMaxRange;  };
 
-	UStaticMeshComponent* GetNearestMeshRoad(UStaticMeshComponent* TerrainMesh);
+	class UStaticMeshComponent* GetNearestMeshRoad(class UStaticMeshComponent* TerrainMesh) const;
 
 protected:
 	void Generate() override;

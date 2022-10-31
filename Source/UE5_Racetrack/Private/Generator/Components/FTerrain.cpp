@@ -26,12 +26,12 @@ FTerrain::~FTerrain()
 	this->TerrainMap.Empty();
 }
 
-FTerrain::MapType FTerrain::GetMap()
+FTerrain::MapType FTerrain::GetMap() const
 {
 	return this->TerrainMap;
 }
 
-UStaticMeshComponent* FTerrain::GetNearestMeshRoad(UStaticMeshComponent* TerrainMesh)
+UStaticMeshComponent* FTerrain::GetNearestMeshRoad(UStaticMeshComponent* TerrainMesh) const
 {
 	return static_cast<UStaticMeshComponent*>(TerrainMesh->GetAttachParent());
 }
@@ -50,14 +50,15 @@ void FTerrain::Generate()
 	const FVector LastTrack = Tracks.Top()->GetRelativeLocation();
 	const double Distance = FVector::Dist(FirstTrack, LastTrack);
 
+	// create tile map
 	const int32 TerrainRange = this->GetMaxRange();
-	for (int32 x = 0; x < TerrainRange; x += TerrainMeshSize.X)
+	for (int32 X = 0; X < TerrainRange; X += TerrainMeshSize.X)
 	{
-		TerrainMap.Add(x, TMap<int32, UStaticMeshComponent*>{});
+		TerrainMap.Add(X, TMap<int32, UStaticMeshComponent*>{});
 
-		for (int32 y = -TerrainRange; y < TerrainRange; y += TerrainMeshSize.Y)
+		for (int32 Y = -TerrainRange; Y < TerrainRange; Y += TerrainMeshSize.Y)
 		{
-			const FVector TerrainVector(x, y, FirstTrack.Z); // direct initialization to skip useless conversion code
+			const FVector TerrainVector(X, Y, FirstTrack.Z); // direct initialization to skip useless conversion code
 
 			UStaticMeshComponent* NearestTrack = Tracks[0];
 			for (auto* Track : Tracks)
@@ -66,21 +67,22 @@ void FTerrain::Generate()
 					NearestTrack = Track;
 			}
 
+			// create terrain mesh only if nearest track isn't too far
 			if (FVector::Dist(NearestTrack->GetRelativeLocation(), TerrainVector) < TerrainMeshSize.Y * 5)
 			{
 				FTransform TerrainTransform{
-					FRotator{0, 0, 0}, // Rotation
-					FVector(x, y, -this->DownOffset), // Position
-					FVector{ 1.0, 1.0, 1.0 } // Scale
+					FRotator{0, 0, 0},
+					FVector(X, Y, -this->DownOffset),
+					FVector{ 1.0, 1.0, 1.0 }
 				};
 
 				UStaticMeshComponent* Mesh = this->AddMesh(GetGenerator()->TerrainMesh, TerrainTransform);
 				Mesh->AttachToComponent(NearestTrack, FAttachmentTransformRules::KeepWorldTransform);
-				TerrainMap[x].Add(y, Mesh);
+				TerrainMap[X].Add(Y, Mesh);
 			}
 			else 
 			{
-				TerrainMap[x].Add(y, nullptr);
+				TerrainMap[X].Add(Y, nullptr);
 			}
 		}
 	}

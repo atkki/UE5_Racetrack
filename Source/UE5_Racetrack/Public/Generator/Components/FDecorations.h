@@ -6,7 +6,7 @@ class FDecorations : public FGeneratorComponent
 {
 public:
 	FDecorations(FGeneratorComponent* Tracks);
-	virtual ~FDecorations();
+	virtual ~FDecorations() = default;
 
 protected:
 	void Generate() override;

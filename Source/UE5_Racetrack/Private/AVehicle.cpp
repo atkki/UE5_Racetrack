@@ -34,7 +34,6 @@ AVehicle::AVehicle()
 }
 void AVehicle::Tick(float DeltaTime)
 {
-	// GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Blue, FString::Printf(TEXT("Gear: %i"), this->GetVehicleMovementComponent()->GetCurrentGear()));
 	EngineAudio->SetFloatParameter(FName("RPM"), this->GetRPM());
 	EngineAudio->SetFloatParameter(FName("Throttle"), this->GetEngineTorque() / this->GetEngineMaxTorque());
 	EngineAudio->SetFloatParameter(FName("Speed"), this->GetVehicleMovementComponent()->GetForwardSpeed());
@@ -70,22 +69,22 @@ void AVehicle::BeginPlay()
 	Super::BeginPlay();
 }
 
-void AVehicle::Handbrake()
+void AVehicle::InputHandbrake()
 {
 	this->GetVehicleMovementComponent()->SetHandbrakeInput(!GetVehicleMovementComponent()->GetHandbrakeInput());
 }
 
-void AVehicle::Throttle(float Value)
+void AVehicle::InputThrottle(float Value)
 {
 	this->GetVehicleMovementComponent()->SetThrottleInput(Value);
 }
 
-void AVehicle::Brake(float Value)
+void AVehicle::InputBrake(float Value)
 {
 	this->GetVehicleMovementComponent()->SetBrakeInput(Value);
 }
 
-void AVehicle::Steering(float Value)
+void AVehicle::InputSteering(float Value)
 {
 	this->GetVehicleMovementComponent()->SetSteeringInput(Value);
 }
