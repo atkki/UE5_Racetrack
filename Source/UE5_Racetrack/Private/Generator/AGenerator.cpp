@@ -4,6 +4,7 @@
 #include "Generator/Components/FRaceTracks.h"
 #include "Generator/Components/FTerrain.h"
 #include "Generator/Components/FVegetation.h"
+#include "Generator/Components/FDecorations.h"
 
 #include "Components/InstancedStaticMeshComponent.h"
 #include "UObject/ConstructorHelpers.h"
@@ -75,9 +76,12 @@ void AGenerator::Generate()
 
 	// Fill terrain based on generated race track
 	Terrain = MakeShared<FTerrain>(RaceTracks.Get());
-	
+
 	// Fill trees & bushes
 	Vegetation = MakeShared<FVegetation>(Terrain.Get());
+
+	// Fill additional decorations near race tracks
+	Decorations = MakeShared<FDecorations>(RaceTracks.Get());
 }
 
 UStaticMeshComponent* AGenerator::NewMesh(UStaticMesh* Mesh, const FTransform& MeshTransform)
@@ -116,6 +120,7 @@ void AGenerator::Cleanup()
 	RaceTracks.Reset();
 	Terrain.Reset();
 	Vegetation.Reset();
+	Decorations.Reset();
 
 	if (GEngine)
 		GEngine->ForceGarbageCollection(true);
