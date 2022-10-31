@@ -11,19 +11,23 @@ FVegetation::FVegetation(FGeneratorComponent* Terrain)
 
 FVegetation::~FVegetation()
 {
+
 }
 
 void FVegetation::Generate()
 {
 	if (GetGenerator()->TreeMesh == nullptr) return;
 	if (GetGenerator()->BushMesh == nullptr) return;
+	if (GetGenerator()->RockMesh == nullptr) return;
 
 	const FVector TerrainMeshSize = FUtils::GetStaticMeshSize(GetGenerator()->TerrainMesh);
 	const FVector BushMeshSize = FUtils::GetStaticMeshSize(GetGenerator()->BushMesh);
 
-	const FTerrain::MapType TerrainMap = static_cast<FTerrain*>(TerrainComponent)->GetMap();
-	const int32 TerrainRange = static_cast<FTerrain*>(TerrainComponent)->GetMaxRange();
+	const FTerrain* TerrainPtr = static_cast<FTerrain*>(TerrainComponent);
+	const FTerrain::MapType TerrainMap = TerrainPtr->GetMap();
+	const int32 TerrainRange = TerrainPtr->GetMaxRange();
 
+	// on every tile of terrain
 	for (int32 x = 0; x < TerrainRange; x += TerrainMeshSize.X)
 	{
 		for (int32 y = -TerrainRange; y < TerrainRange; y += TerrainMeshSize.Y)
@@ -31,7 +35,8 @@ void FVegetation::Generate()
 			UStaticMeshComponent* TerrainMesh = TerrainMap[x][y];
 			if (TerrainMesh != nullptr)
 			{
-				UStaticMeshComponent* RoadMesh = static_cast<FTerrain*>(TerrainComponent)->GetNearestMeshRoad(TerrainMesh);
+				// create vegetation, if nearest road is far enough to not intersect
+				UStaticMeshComponent* RoadMesh = TerrainPtr->GetNearestMeshRoad(TerrainMesh);
 				if (RoadMesh != nullptr 
 					&& FVector::Dist(RoadMesh->GetComponentLocation(), TerrainMesh->GetComponentLocation()) > TerrainMeshSize.X * 6
 					&& GetGenerator()->VegetationDensity + FMath::RandRange(0, 100) > 100)
@@ -39,7 +44,7 @@ void FVegetation::Generate()
 					UStaticMesh* Mesh;
 					FVector Position;
 					double RandomScale;
-					if (FMath::RandRange(1, 10) >= 6 || RoadMesh->GetStaticMesh() == GetGenerator()->LeftCornerTrackMesh)
+					if (FMath::RandRange(1, 10) >= 4 || RoadMesh->GetStaticMesh() == GetGenerator()->LeftCornerTrackMesh)
 					{
 						Position = FVector(x, y, 0);
 						Mesh = GetGenerator()->TreeMesh;
@@ -47,13 +52,13 @@ void FVegetation::Generate()
 					}
 					else
 					{
-						Position = FVector(x, y, -FMath::RandRange(BushMeshSize.Z / 4, BushMeshSize.Z));
-						Mesh = GetGenerator()->BushMesh;
+						Position = FVector(x, y, -FMath::RandRange(BushMeshSize.Z * 0.25, BushMeshSize.Z * 0.5));
+						Mesh = FMath::RandBool() ? GetGenerator()->BushMesh : GetGenerator()->RockMesh;
 						RandomScale = FMath::RandRange(0.7, 1.3);
 					}
 	
 					FTransform MeshTransform{
-						FRotator{0, 0, 0},
+						FRotator(0, FMath::RandRange(0, 360), 0),
 						Position,
 						FVector{RandomScale, RandomScale, RandomScale}
 					};
