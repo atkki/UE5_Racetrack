@@ -42,7 +42,7 @@ void AVehicle::Tick(float DeltaTime)
 	/* on jumps rotates too much, adjust that */
 	if (this->GetVehicleMovementComponent()->IsMovingOnGround() == false)
 	{
-		FRotator Rotation = this->GetActorRotation();
+		const FRotator Rotation = this->GetActorRotation();
 		if (Rotation.Pitch < -15)
 		{
 			this->GetMesh()->AddTorqueInDegrees(FVector(0, -200.0, 0), NAME_None, true);
@@ -92,7 +92,7 @@ void AVehicle::Steering(float Value)
 
 float AVehicle::GetRPM() const
 {
-	auto Component = Cast<UChaosWheeledVehicleMovementComponent>(this->GetVehicleMovementComponent());
+	const auto Component = Cast<UChaosWheeledVehicleMovementComponent>(this->GetVehicleMovementComponent());
 	if (Component != nullptr)
 		return Component->GetEngineRotationSpeed();
 
@@ -101,7 +101,7 @@ float AVehicle::GetRPM() const
 
 float AVehicle::GetEngineTorque() const
 {
-	TUniquePtr<FPhysicsVehicleOutput>& PhysicsOutput = this->GetVehicleMovementComponent()->PhysicsVehicleOutput();
+	const TUniquePtr<FPhysicsVehicleOutput>& PhysicsOutput = this->GetVehicleMovementComponent()->PhysicsVehicleOutput();
 	if (PhysicsOutput.IsValid())
 		return PhysicsOutput.Get()->EngineTorque;
 
@@ -110,7 +110,7 @@ float AVehicle::GetEngineTorque() const
 
 float AVehicle::GetEngineMaxTorque() const
 {
-	auto Component = Cast<UChaosWheeledVehicleMovementComponent>(this->GetVehicleMovementComponent());
+	const auto Component = Cast<UChaosWheeledVehicleMovementComponent>(this->GetVehicleMovementComponent());
 	if (Component != nullptr)
 		return Component->EngineSetup.MaxTorque;
 

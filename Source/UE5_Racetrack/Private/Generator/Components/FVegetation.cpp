@@ -19,10 +19,10 @@ void FVegetation::Generate()
 	if (GetGenerator()->BushMesh == nullptr) return;
 
 	const FVector TerrainMeshSize = FUtils::GetStaticMeshSize(GetGenerator()->TerrainMesh);
-	FTerrain::MapType TerrainMap = static_cast<FTerrain*>(TerrainComponent)->GetMap();
-	int32 TerrainRange = static_cast<FTerrain*>(TerrainComponent)->GetMaxRange();
-
 	const FVector BushMeshSize = FUtils::GetStaticMeshSize(GetGenerator()->BushMesh);
+
+	const FTerrain::MapType TerrainMap = static_cast<FTerrain*>(TerrainComponent)->GetMap();
+	const int32 TerrainRange = static_cast<FTerrain*>(TerrainComponent)->GetMaxRange();
 
 	for (int32 x = 0; x < TerrainRange; x += TerrainMeshSize.X)
 	{
@@ -53,9 +53,9 @@ void FVegetation::Generate()
 					}
 	
 					FTransform MeshTransform{
-						FRotator{0, 0, 0}, // Rotation
-						Position, // Position
-						FVector{RandomScale, RandomScale, RandomScale} // Scale
+						FRotator{0, 0, 0},
+						Position,
+						FVector{RandomScale, RandomScale, RandomScale}
 					};
 
 					this->AddMesh(Mesh, MeshTransform)->AttachToComponent(TerrainMesh, FAttachmentTransformRules::KeepWorldTransform);

@@ -24,7 +24,7 @@ void FRaceTracks::Generate()
 		FVector{1, 1, 1}
 	};
 
-	this->AddMesh(GetGenerator()->ForwardTrackMesh, MeshTransform);
+	this->AddMesh(GetGenerator()->ForwardTrackMesh, MeshTransform); // add first track
 
 	uint8 WaitForCorner = FMath::RandRange(1, GetGenerator()->TurnSpace);
 	for (int k = 0; k < GetGenerator()->TrackLength; ++k)
@@ -33,14 +33,14 @@ void FRaceTracks::Generate()
 			--WaitForCorner;
 
 		const bool bIsStraightSection = FMath::RandRange(1, 10) > 7;
-		if (bIsStraightSection || WaitForCorner > 0)
+		if (bIsStraightSection || WaitForCorner > 0) // drawn straight section || not allowed to make new corner
 		{
-			if (GetLastMesh()->GetStaticMesh() == GetGenerator()->LeftCornerTrackMesh)
+			if (GetLastMesh()->GetStaticMesh() == GetGenerator()->LeftCornerTrackMesh) // custom tweaks for previous left/right corner
 			{
 				Rotation = GetLastMesh()->GetRelativeRotation();
 
-				bool bIsLeft = GetLastMesh()->GetRelativeScale3D().Y >= 1.0;
-				bool bNewDirection = FMath::RandBool(); // true = left
+				const bool bIsLeft = GetLastMesh()->GetRelativeScale3D().Y >= 1.0;
+				const bool bNewDirection = FMath::RandBool(); // true = left
 				FVector Offset{ ForwardMeshSize.X / 2 + CornerMeshSize.X / 2, -CornerMeshSize.X, 0 };
 				if (!bIsLeft)
 				{
@@ -58,7 +58,7 @@ void FRaceTracks::Generate()
 					FVector{1.0, 1.0, 1.0} // Scale
 				};
 			}
-			else
+			else // straight track
 			{
 				Rotation = GetLastMesh()->GetRelativeRotation();
 				MeshTransform = {
@@ -70,10 +70,10 @@ void FRaceTracks::Generate()
 
 			this->AddMesh(FMath::RandRange(1, 20) == 1 ? GetGenerator()->JumpTrackMesh : GetGenerator()->ForwardTrackMesh, MeshTransform);
 		}
-		else
+		else // corner
 		{
 			const FVector LastMeshSize = FUtils::GetStaticMeshSize(GetLastMesh());
-			FVector Location = FUtils::GetOffsetLocation(GetLastMesh(), FVector{ LastMeshSize.X / 2, 0, 0 });
+			const FVector Location = FUtils::GetOffsetLocation(GetLastMesh(), FVector{ LastMeshSize.X / 2, 0, 0 });
 
 			Rotation = GetLastMesh()->GetRelativeRotation().GetDenormalized();
 			bool bNextIsLeft = FMath::RandRange(1, 10) > 5;
@@ -86,9 +86,9 @@ void FRaceTracks::Generate()
 				bNextIsLeft = false;
 
 			MeshTransform = {
-				Rotation, // Rotation
+				Rotation,
 				Location,
-				FVector{1.0, bNextIsLeft ? 1.0 : -1.0, 1.0} // Scale
+				FVector{1.0, bNextIsLeft ? 1.0 : -1.0, 1.0}
 			};
 			this->AddMesh(GetGenerator()->LeftCornerTrackMesh, MeshTransform);
 

@@ -17,6 +17,7 @@ public:
 	FORCEINLINE int32 GetMaxRange() { return TerrainMaxRange;  };
 
 	UStaticMeshComponent* GetNearestMeshRoad(UStaticMeshComponent* TerrainMesh);
+
 protected:
 	void Generate() override;
 

@@ -8,6 +8,7 @@ class FRaceTracks : public FGeneratorComponent
 public:
 	FRaceTracks(class AGenerator* CurrentGenerator);
 	virtual ~FRaceTracks() = default;
+
 protected:
 	virtual void Generate() override;
 };

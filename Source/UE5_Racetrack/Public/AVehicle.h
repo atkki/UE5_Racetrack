@@ -19,6 +19,7 @@ public:
 	float GetRPM() const;
 	float GetEngineTorque() const;
 	float GetEngineMaxTorque() const;
+
 protected:
 	virtual void BeginPlay() override;
 	void Handbrake();

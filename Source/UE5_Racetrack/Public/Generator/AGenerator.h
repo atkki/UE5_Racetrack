@@ -51,10 +51,12 @@ public:
 
 	UStaticMeshComponent* NewMesh(class UStaticMesh* Mesh, const FTransform& MeshTransform);
 	UInstancedStaticMeshComponent* NewMeshInstance(class UStaticMesh* Mesh, const FTransform& MeshTransform);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
+
 private: 
 	void Generate();
 	void Cleanup();

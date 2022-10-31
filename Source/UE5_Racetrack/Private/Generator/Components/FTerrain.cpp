@@ -40,7 +40,7 @@ void FTerrain::Generate()
 {
 	if (GetGenerator()->TerrainMesh == nullptr) return;
 
-	auto Tracks = TrackComponent->GetMeshes();
+	const auto Tracks = TrackComponent->GetMeshes();
 
 	const FVector TerrainMeshSize = FUtils::GetStaticMeshSize(GetGenerator()->TerrainMesh);
 	this->DownOffset = TerrainMeshSize.Z * 0.5;
@@ -48,16 +48,16 @@ void FTerrain::Generate()
 	const FVector StartPosition { GetGenerator()->GetActorLocation() };
 	const FVector FirstTrack = Tracks[0]->GetRelativeLocation();
 	const FVector LastTrack = Tracks.Top()->GetRelativeLocation();
-	double Distance = FVector::Dist(FirstTrack, LastTrack);
+	const double Distance = FVector::Dist(FirstTrack, LastTrack);
 
-	int32 TerrainRange = this->GetMaxRange();
+	const int32 TerrainRange = this->GetMaxRange();
 	for (int32 x = 0; x < TerrainRange; x += TerrainMeshSize.X)
 	{
 		TerrainMap.Add(x, TMap<int32, UStaticMeshComponent*>{});
 
 		for (int32 y = -TerrainRange; y < TerrainRange; y += TerrainMeshSize.Y)
 		{
-			FVector TerrainVector(x, y, FirstTrack.Z); // direct initialization to skip useless conversion code
+			const FVector TerrainVector(x, y, FirstTrack.Z); // direct initialization to skip useless conversion code
 
 			UStaticMeshComponent* NearestTrack = Tracks[0];
 			for (auto* Track : Tracks)
