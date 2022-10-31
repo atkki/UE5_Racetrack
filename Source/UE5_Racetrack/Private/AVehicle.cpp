@@ -57,11 +57,11 @@ void AVehicle::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction("Handbrake", IE_Repeat, this, &AVehicle::Handbrake);
+	PlayerInputComponent->BindAction("Handbrake", IE_Repeat, this, &AVehicle::InputHandbrake);
 
-	PlayerInputComponent->BindAxis("Throttle", this, &AVehicle::Throttle);
-	PlayerInputComponent->BindAxis("Brake", this, &AVehicle::Brake);
-	PlayerInputComponent->BindAxis("Steering", this, &AVehicle::Steering);
+	PlayerInputComponent->BindAxis("Throttle", this, &AVehicle::InputThrottle);
+	PlayerInputComponent->BindAxis("Brake", this, &AVehicle::InputBrake);
+	PlayerInputComponent->BindAxis("Steering", this, &AVehicle::InputSteering);
 }
 
 void AVehicle::BeginPlay()
