@@ -6,7 +6,7 @@
 FDecorations::FDecorations(FGeneratorComponent* Tracks)
 	: FGeneratorComponent{ Tracks->GetGenerator() }, TracksComponent{ Tracks }
 {
-	this->Generate();
+	Generate();
 }
 
 void FDecorations::Generate()
@@ -39,7 +39,7 @@ void FDecorations::Generate()
 					FUtils::GetOffsetLocation(Track, FVector{0, -TrackMeshSize.Y, 0}),
 					FVector{1.0, 1.0, 1.0}
 				};
-				this->AddMesh(GetGenerator()->BleachersMesh, MeshTransform);
+				AddMesh(GetGenerator()->BleachersMesh, MeshTransform);
 
 				// right bleachers
 				MeshTransform = {
@@ -47,7 +47,7 @@ void FDecorations::Generate()
 					FUtils::GetOffsetLocation(Track, FVector{ 0, TrackMeshSize.Y, 0 }),
 					FVector{ 1.0, 1.0, 1.0 }
 				};
-				this->AddMesh(GetGenerator()->BleachersMesh, MeshTransform);
+				AddMesh(GetGenerator()->BleachersMesh, MeshTransform);
 				BleachersWait = 6;
 			}
 
@@ -59,7 +59,7 @@ void FDecorations::Generate()
 					FUtils::GetOffsetLocation(Track, FVector{CornerMeshSize.X / 4, -CornerMeshSize.Y / 2, 0}),
 					FVector{1.0, 1.0, 1.0}
 				};
-				this->AddMesh(GetGenerator()->WatchtowerMesh, MeshTransform);
+				AddMesh(GetGenerator()->WatchtowerMesh, MeshTransform);
 			}
 		}
 
@@ -71,7 +71,7 @@ void FDecorations::Generate()
 				FUtils::GetOffsetLocation(Track, FVector{0.0, 0.0, 0.0}),
 				FVector{1.0, 1.0, 1.0}
 			};
-			this->AddMesh(GetGenerator()->CheckpointMesh, MeshTransform);
+			AddMesh(GetGenerator()->CheckpointMesh, MeshTransform);
 
 			LastCheckpoint = Index;
 		}
@@ -84,7 +84,7 @@ void FDecorations::Generate()
 				FUtils::GetOffsetLocation(Track, FVector{0.0, 0.0, 0.0}),
 				FVector{1.0, 1.0, 1.0}
 			};
-			this->AddMesh(GetGenerator()->FinishMesh, MeshTransform);
+			AddMesh(GetGenerator()->FinishMesh, MeshTransform);
 		}
 	}
 }

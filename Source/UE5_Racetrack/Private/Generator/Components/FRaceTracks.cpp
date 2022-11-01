@@ -4,7 +4,7 @@
 FRaceTracks::FRaceTracks(AGenerator* CurrentGenerator)
 	: FGeneratorComponent{ CurrentGenerator }
 {
-	this->Generate();
+	Generate();
 }
 
 void FRaceTracks::Generate()
@@ -25,7 +25,7 @@ void FRaceTracks::Generate()
 		FVector{1, 1, 1}
 	};
 
-	this->AddMesh(GetGenerator()->ForwardTrackMesh, MeshTransform); // add first track
+	AddMesh(GetGenerator()->ForwardTrackMesh, MeshTransform); // add first track
 
 	uint8 WaitForCorner = FMath::RandRange(1, GetGenerator()->TurnSpace);
 	for (int Index = 0; Index < GetGenerator()->TrackLength; ++Index)
@@ -69,7 +69,7 @@ void FRaceTracks::Generate()
 				};
 			}
 
-			this->AddMesh(FMath::RandRange(1, 20) == 1 ? GetGenerator()->JumpTrackMesh : GetGenerator()->ForwardTrackMesh, MeshTransform);
+			AddMesh(FMath::RandRange(1, 20) == 1 ? GetGenerator()->JumpTrackMesh : GetGenerator()->ForwardTrackMesh, MeshTransform);
 		}
 		else // corner
 		{
@@ -91,7 +91,7 @@ void FRaceTracks::Generate()
 				Location,
 				FVector{1.0, bNextIsLeft ? 1.0 : -1.0, 1.0}
 			};
-			this->AddMesh(GetGenerator()->LeftCornerTrackMesh, MeshTransform);
+			AddMesh(GetGenerator()->LeftCornerTrackMesh, MeshTransform);
 
 			// instant turn
 			if (FMath::RandRange(1, 5) == 1)

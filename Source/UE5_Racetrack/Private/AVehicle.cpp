@@ -32,23 +32,24 @@ AVehicle::AVehicle()
 	TorqueControl.RollFromSteering = -0.5f;
 	TorqueControl.RotationDamping = 0.5f;
 }
+
 void AVehicle::Tick(float DeltaTime)
 {
-	EngineAudio->SetFloatParameter(FName("RPM"), this->GetRPM());
-	EngineAudio->SetFloatParameter(FName("Throttle"), this->GetEngineTorque() / this->GetEngineMaxTorque());
-	EngineAudio->SetFloatParameter(FName("Speed"), this->GetVehicleMovementComponent()->GetForwardSpeed());
+	EngineAudio->SetFloatParameter(FName("RPM"), GetRPM());
+	EngineAudio->SetFloatParameter(FName("Throttle"), GetEngineTorque() / GetEngineMaxTorque());
+	EngineAudio->SetFloatParameter(FName("Speed"), GetVehicleMovementComponent()->GetForwardSpeed());
 
 	/* on jumps rotates too much, adjust that */
-	if (this->GetVehicleMovementComponent()->IsMovingOnGround() == false)
+	if (GetVehicleMovementComponent()->IsMovingOnGround() == false)
 	{
-		const FRotator Rotation = this->GetActorRotation();
+		const FRotator Rotation = GetActorRotation();
 		if (Rotation.Pitch < -15)
 		{
-			this->GetMesh()->AddTorqueInDegrees(FVector(0, -200.0, 0), NAME_None, true);
+			GetMesh()->AddTorqueInDegrees(FVector(0, -200.0, 0), NAME_None, true);
 		}
 		else if (Rotation.Pitch > 15)
 		{
-			this->GetMesh()->AddTorqueInDegrees(FVector(0, 200.0, 0), NAME_None, true);
+			GetMesh()->AddTorqueInDegrees(FVector(0, 200.0, 0), NAME_None, true);
 		}
 	}
 }
@@ -71,27 +72,27 @@ void AVehicle::BeginPlay()
 
 void AVehicle::InputHandbrake()
 {
-	this->GetVehicleMovementComponent()->SetHandbrakeInput(!GetVehicleMovementComponent()->GetHandbrakeInput());
+	GetVehicleMovementComponent()->SetHandbrakeInput(!GetVehicleMovementComponent()->GetHandbrakeInput());
 }
 
 void AVehicle::InputThrottle(float Value)
 {
-	this->GetVehicleMovementComponent()->SetThrottleInput(Value);
+	GetVehicleMovementComponent()->SetThrottleInput(Value);
 }
 
 void AVehicle::InputBrake(float Value)
 {
-	this->GetVehicleMovementComponent()->SetBrakeInput(Value);
+	GetVehicleMovementComponent()->SetBrakeInput(Value);
 }
 
 void AVehicle::InputSteering(float Value)
 {
-	this->GetVehicleMovementComponent()->SetSteeringInput(Value);
+	GetVehicleMovementComponent()->SetSteeringInput(Value);
 }
 
 float AVehicle::GetRPM() const
 {
-	const auto Component = Cast<UChaosWheeledVehicleMovementComponent>(this->GetVehicleMovementComponent());
+	const auto Component = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovementComponent());
 	if (Component != nullptr)
 		return Component->GetEngineRotationSpeed();
 
@@ -100,7 +101,7 @@ float AVehicle::GetRPM() const
 
 float AVehicle::GetEngineTorque() const
 {
-	const TUniquePtr<FPhysicsVehicleOutput>& PhysicsOutput = this->GetVehicleMovementComponent()->PhysicsVehicleOutput();
+	const TUniquePtr<FPhysicsVehicleOutput>& PhysicsOutput = GetVehicleMovementComponent()->PhysicsVehicleOutput();
 	if (PhysicsOutput.IsValid())
 		return PhysicsOutput.Get()->EngineTorque;
 
@@ -109,7 +110,7 @@ float AVehicle::GetEngineTorque() const
 
 float AVehicle::GetEngineMaxTorque() const
 {
-	const auto Component = Cast<UChaosWheeledVehicleMovementComponent>(this->GetVehicleMovementComponent());
+	const auto Component = Cast<UChaosWheeledVehicleMovementComponent>(GetVehicleMovementComponent());
 	if (Component != nullptr)
 		return Component->EngineSetup.MaxTorque;
 

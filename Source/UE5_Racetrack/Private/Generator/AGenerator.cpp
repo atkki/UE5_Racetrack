@@ -107,13 +107,15 @@ UInstancedStaticMeshComponent* AGenerator::NewMeshInstance(UStaticMesh* Mesh, co
 
 void AGenerator::Cleanup()
 {
-	while (this->GetComponentByClass(UInstancedStaticMeshComponent::StaticClass()) != nullptr) {
-		UActorComponent* ComponentToClean = this->GetComponentByClass(UInstancedStaticMeshComponent::StaticClass());
+	while (GetComponentByClass(UInstancedStaticMeshComponent::StaticClass()) != nullptr) 
+	{
+		UActorComponent* ComponentToClean = GetComponentByClass(UInstancedStaticMeshComponent::StaticClass());
 		ComponentToClean->DestroyComponent();
 	}
 
-	while (this->GetComponentByClass(UStaticMeshComponent::StaticClass()) != nullptr) {
-		UActorComponent* ComponentToClean = this->GetComponentByClass(UStaticMeshComponent::StaticClass());
+	while (GetComponentByClass(UStaticMeshComponent::StaticClass()) != nullptr) 
+	{
+		UActorComponent* ComponentToClean = GetComponentByClass(UStaticMeshComponent::StaticClass());
 		ComponentToClean->DestroyComponent();
 	}
 

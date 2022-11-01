@@ -18,17 +18,17 @@ FTerrain::FTerrain(FGeneratorComponent* RaceTracks)
 	TerrainMaxRange = 50 + GetGenerator()->TrackLength * TerrainMeshSize.X;
 	TerrainMap.Reserve(TerrainMaxRange * 2);
 
-	this->Generate();
+	Generate();
 }
 
 FTerrain::~FTerrain()
 {
-	this->TerrainMap.Empty();
+	TerrainMap.Empty();
 }
 
 FTerrain::MapType FTerrain::GetMap() const
 {
-	return this->TerrainMap;
+	return TerrainMap;
 }
 
 UStaticMeshComponent* FTerrain::GetNearestMeshRoad(UStaticMeshComponent* TerrainMesh) const
@@ -51,7 +51,7 @@ void FTerrain::Generate()
 	const double Distance = FVector::Dist(FirstTrack, LastTrack);
 
 	// create tile map
-	const int32 TerrainRange = this->GetMaxRange();
+	const int32 TerrainRange = GetMaxRange();
 	for (int32 X = 0; X < TerrainRange; X += TerrainMeshSize.X)
 	{
 		TerrainMap.Add(X, TMap<int32, UStaticMeshComponent*>{});
@@ -76,7 +76,7 @@ void FTerrain::Generate()
 					FVector{ 1.0, 1.0, 1.0 }
 				};
 
-				UStaticMeshComponent* Mesh = this->AddMesh(GetGenerator()->TerrainMesh, TerrainTransform);
+				UStaticMeshComponent* Mesh = AddMesh(GetGenerator()->TerrainMesh, TerrainTransform);
 				Mesh->AttachToComponent(NearestTrack, FAttachmentTransformRules::KeepWorldTransform);
 				TerrainMap[X].Add(Y, Mesh);
 			}

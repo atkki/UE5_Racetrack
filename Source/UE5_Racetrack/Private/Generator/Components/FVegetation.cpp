@@ -6,7 +6,7 @@
 FVegetation::FVegetation(FGeneratorComponent* Terrain)
 	: FGeneratorComponent{ Terrain->GetGenerator() }, TerrainComponent { Terrain }
 {
-	this->Generate();
+	Generate();
 }
 
 void FVegetation::Generate()
@@ -58,7 +58,7 @@ void FVegetation::Generate()
 						FVector{RandomScale, RandomScale, RandomScale}
 					};
 
-					this->AddMesh(Mesh, MeshTransform)->AttachToComponent(TerrainMesh, FAttachmentTransformRules::KeepWorldTransform);
+					AddMesh(Mesh, MeshTransform)->AttachToComponent(TerrainMesh, FAttachmentTransformRules::KeepWorldTransform);
 				}
 			}
 		}
